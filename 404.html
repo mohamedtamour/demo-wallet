@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b5e57">
+  <title>Pay Transfer Agent</title>
+  <script src="assets/js/runtime-config.js?v=04bab6a77c"></script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css?v=04bab6a77c">
+  <link rel="modulepreload" href="assets/js/i18n.js?v=04bab6a77c">
+  <link rel="modulepreload" href="assets/js/transport.js?v=04bab6a77c">
+  <link rel="modulepreload" href="assets/js/icons.js?v=04bab6a77c">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230f766e'/%3E%3Cpath d='M20 34l8 8 16-18' stroke='white' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="stage">
+    <!-- Presentation side panel (desktop only) -->
+    <aside class="pitch" id="pitch">
+      <div class="pitch-top">
+        <div class="pitch-brand">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <div>
+            <b id="pitchName">Pay Transfer Agent</b>
+            <small>AI Wallet Assistant · MVP</small>
+          </div>
+        </div>
+        <button class="pitch-lang" id="pitchLang" data-t="lang.switch" data-t-title="lang.switch_title">English</button>
+      </div>
+      <h1 data-t="pitch.h1"></h1>
+      <p data-t="pitch.p"></p>
+      <div class="pitch-status" id="pitchStatus"><span class="dot"></span><span></span></div>
+      <div class="pitch-try">
+        <small data-t="pitch.try"></small>
+        <div class="pitch-chips" id="pitchChips"></div>
+      </div>
+      <a class="pitch-admin" href="admin.html" target="_blank" rel="noopener" data-t="pitch.admin"></a>
+    </aside>
+
+    <!-- The phone -->
+    <main class="device" id="device">
+      <div class="banner-demo" data-t="demo_banner"></div>
+      <div class="screen" id="screen">
+        <div id="view" class="view"></div>
+      </div>
+
+      <nav class="tabbar" id="tabbar" data-t-title="tab.nav">
+        <button class="tab active" data-tab="home"><span data-icon="home"></span><small data-t="tab.home"></small></button>
+        <button class="tab" data-tab="transactions"><span data-icon="history"></span><small data-t="tab.transactions"></small></button>
+        <button class="tab-fab" id="fabMic" data-t-title="talk_to_assistant"><span data-icon="mic"></span></button>
+        <button class="tab" data-tab="bills"><span data-icon="receipt"></span><small data-t="tab.bills"></small></button>
+        <button class="tab" data-tab="more"><span data-icon="user"></span><small data-t="tab.more"></small></button>
+      </nav>
+
+      <!-- Assistant sheet -->
+      <div class="sheet-backdrop" id="sheetBackdrop"></div>
+      <section class="sheet" id="assistant" aria-hidden="true">
+        <div class="sheet-handle" id="sheetHandle"></div>
+        <header class="as-head">
+          <div class="as-id">
+            <div class="as-avatar"><span data-icon="sparkles"></span></div>
+            <div>
+              <b data-t="as.title"></b>
+              <small id="asStatus"><span class="dot"></span></small>
+            </div>
+          </div>
+          <div class="as-tools">
+            <button class="icon-btn lang-chip" id="asLang" data-t-title="as.lang_btn">EN</button>
+            <button class="icon-btn" id="aiBtn" data-t-title="ai.title"><span data-icon="sliders"></span></button>
+            <button class="icon-btn" id="ttsBtn" data-t-title="as.tts"><span data-icon="volume"></span></button>
+            <button class="icon-btn" id="newChatBtn" data-t-title="as.new_chat"><span data-icon="refresh"></span></button>
+            <button class="icon-btn" id="closeAs" data-t-title="close"><span data-icon="x"></span></button>
+          </div>
+        </header>
+        <div class="as-log" id="asLog" aria-live="polite"></div>
+        <div class="as-quick" id="asQuick"></div>
+        <div class="listen" id="listenBar" hidden>
+          <div class="waves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="listen-text"><b id="listenTitle"></b><small id="listenInterim"></small></div>
+          <button class="icon-btn danger" id="stopListen" data-t-title="as.stop"><span data-icon="stop"></span></button>
+        </div>
+        <div class="ai-panel" id="aiPanel" hidden>
+          <div class="ai-head"><b data-t="ai.title"></b><button class="icon-btn" id="aiClose" data-t-title="close"><span data-icon="x"></span></button></div>
+          <div class="ai-body">
+            <p class="ai-note" data-t="ai.note"></p>
+            <div class="field"><label for="aiProvider" data-t="ai.engine"></label><select class="select" id="aiProvider"></select></div>
+            <div class="field" id="aiModelF"><label for="aiModel" data-t="ai.model"></label><input class="input ltr" id="aiModel" list="aiModels" autocomplete="off" spellcheck="false"><datalist id="aiModels"></datalist></div>
+            <div class="field" id="aiBaseF"><label for="aiBase" data-t="ai.base"></label><input class="input ltr" id="aiBase" autocomplete="off" spellcheck="false"><div class="hint" id="aiLocalHint" data-t="ai.local_hint"></div></div>
+            <div class="field" id="aiKeyF"><label for="aiKey" data-t="ai.key"></label>
+              <div class="input-wrap"><input class="input ltr" id="aiKey" type="password" autocomplete="off" spellcheck="false"><button class="eye-btn" id="aiKeyEye" type="button" data-t-title="ai.show"><span data-icon="eye"></span></button></div>
+              <div class="hint" data-t="ai.key_hint"></div></div>
+            <div class="field"><label for="aiStt" data-t="ai.voice"></label><select class="select" id="aiStt"></select><div class="hint" data-t="ai.voice_hint"></div></div>
+            <div class="field" id="aiSttKeyF"><label for="aiSttKey" data-t="ai.stt_key"></label><input class="input ltr" id="aiSttKey" type="password" autocomplete="off" spellcheck="false"></div>
+            <div class="ai-status" id="aiStatus" role="status"></div>
+            <div class="ai-actions"><button class="btn ghost" id="aiTest" data-t="ai.test"></button><button class="btn primary" id="aiSave" data-t="ai.save"></button></div>
+          </div>
+        </div>
+        <div class="as-composer">
+          <button class="mic-btn" id="asMic" data-t-title="as.mic"><span data-icon="mic"></span></button>
+          <input id="asInput" type="text" autocomplete="off" data-t-ph="as.placeholder" maxlength="500">
+          <button class="send-btn" id="asSend" data-t-title="as.send"><span data-icon="send"></span></button>
+        </div>
+      </section>
+
+      <div class="toast" id="toast" role="status"></div>
+    </main>
+  </div>
+
+  <script type="module" src="assets/js/app.js?v=04bab6a77c"></script>
+</body>
+</html>

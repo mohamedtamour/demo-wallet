@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pay Transfer Agent — Admin</title>
+  <script src="assets/js/runtime-config.js?v=04bab6a77c"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css?v=04bab6a77c">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><div class="logo"></div><div><b id="brandName">Pay Transfer Agent</b><small data-t="subtitle"></small></div></div>
+    <div class="top-actions">
+      <span class="pill" id="agentPill"><span class="dot"></span> …</span>
+      <button class="btn ghost" id="langBtn" data-t="lang">English</button>
+      <button class="btn ghost" id="pingBtn" data-t="ping"></button>
+      <button class="btn ghost" id="refreshBtn" data-t="refresh"></button>
+      <button class="btn ghost" id="exportBtn" data-t="export"></button>
+      <button class="btn danger" id="resetBtn" data-t="reset"></button>
+      <a class="btn primary" href="./" target="_blank" rel="noopener" data-t="open_app"></a>
+    </div>
+  </header>
+
+  <section class="stats" id="stats"></section>
+
+  <nav class="tabs">
+    <button class="tab on" data-tab="conv" data-t="tab_conv"></button>
+    <button class="tab" data-tab="tx" data-t="tab_tx"></button>
+    <button class="tab" data-tab="sched" data-t="tab_sched"></button>
+    <button class="tab" data-tab="llm" data-t="tab_llm"></button>
+  </nav>
+
+  <main id="convTab" class="conv-layout">
+    <aside class="conv-list">
+      <div class="filter">
+        <button class="on" data-filter="" data-t="all"></button>
+        <button data-filter="handover" data-t="waiting_staff"></button>
+      </div>
+      <div id="convItems"></div>
+    </aside>
+    <section class="conv-detail" id="convDetail">
+      <div class="empty" data-t="pick"></div>
+    </section>
+  </main>
+
+  <main id="txTab" class="tx-wrap" hidden>
+    <table class="table">
+      <thead><tr><th data-t="th_ref"></th><th data-t="th_service"></th><th data-t="th_details"></th><th data-t="th_amount"></th><th data-t="th_total"></th><th data-t="th_source"></th><th data-t="th_status"></th><th data-t="th_date"></th></tr></thead>
+      <tbody id="txRows"></tbody>
+    </table>
+  </main>
+
+  <main id="schedTab" class="tx-wrap" hidden>
+    <div class="sched-bar"><span data-t="sched_bar"></span><button class="btn primary" id="runSchedBtn" data-t="run_sched"></button></div>
+    <table class="table">
+      <thead><tr><th>#</th><th data-t="th_kind"></th><th data-t="th_title"></th><th data-t="th_amount"></th><th data-t="th_repeat"></th><th data-t="th_next"></th><th data-t="th_runs"></th><th data-t="th_last"></th><th data-t="th_status"></th></tr></thead>
+      <tbody id="schedRows"></tbody>
+    </table>
+  </main>
+
+  <main id="llmTab" class="llm-wrap" hidden>
+    <section class="llm-card" id="linkCard">
+      <div class="llm-head"><h3 data-t="lk_title"></h3><span class="llm-src" id="lkState"></span></div>
+      <p class="llm-hint" data-t="lk_hint"></p>
+      <div class="llm-grid">
+        <label><span data-t="lk_provider"></span><select id="lkProvider"></select></label>
+        <label><span data-t="llm_model"></span><input id="lkModel" list="lkModels" autocomplete="off" spellcheck="false" dir="ltr"><datalist id="lkModels"></datalist></label>
+        <label><span data-t="lk_key"></span><input id="lkKey" type="password" autocomplete="new-password" spellcheck="false" dir="ltr" data-t-ph="lk_ph"></label>
+      </div>
+      <div class="llm-actions">
+        <button class="btn primary" id="lkMake" data-t="lk_make"></button>
+        <button class="btn ghost" id="lkUse" data-t="lk_use"></button>
+        <button class="btn danger" id="lkForget" data-t="lk_forget"></button>
+      </div>
+      <div class="lk-out" id="lkOut" hidden>
+        <input id="lkLink" readonly dir="ltr">
+        <button class="btn primary sm" id="lkCopy" data-t="lk_copy"></button>
+      </div>
+    </section>
+    <section class="llm-card server-only">
+      <div class="llm-head"><h3 data-t="llm_active"></h3><span class="llm-src" id="llmSource"></span></div>
+      <div id="llmChainView"></div>
+    </section>
+    <section class="llm-card server-only">
+      <h3 data-t="llm_chain"></h3><p class="llm-hint" data-t="llm_chain_hint"></p>
+      <div class="llm-grid">
+        <label><span data-t="llm_primary"></span><select id="llmPrimary"></select></label>
+        <label><span data-t="llm_model"></span><input id="llmModel" list="llmModelList" autocomplete="off" spellcheck="false" dir="ltr"><datalist id="llmModelList"></datalist></label>
+        <label id="llmBaseWrap"><span data-t="llm_base"></span><input id="llmBase" placeholder="https://host/v1" autocomplete="off" spellcheck="false" dir="ltr"></label>
+        <label><span data-t="llm_mode"></span><select id="llmMode"></select></label>
+      </div>
+      <div class="llm-sub"><b data-t="llm_fallbacks"></b><button class="btn ghost sm" id="llmAddFb" data-t="llm_add_fb"></button></div>
+      <div id="llmFbRows"></div>
+      <div class="llm-actions">
+        <button class="btn primary" id="llmSaveChain" data-t="llm_save_chain"></button>
+        <button class="btn ghost" id="llmReset" data-t="llm_reset"></button>
+      </div>
+    </section>
+    <section class="llm-card server-only">
+      <div class="llm-head"><h3 data-t="llm_local"></h3><button class="btn primary sm" id="llmDiscover" data-t="llm_discover"></button></div>
+      <p class="llm-hint" data-t="llm_local_hint"></p>
+      <div id="llmLocalFound"></div>
+      <div class="local-manual">
+        <select id="llmLocalProv"></select>
+        <input id="llmLocalUrl" dir="ltr" spellcheck="false" autocomplete="off">
+        <button class="btn ghost sm" id="llmLocalCheck" data-t="llm_local_check"></button>
+        <button class="btn ghost sm" id="llmLocalSave" data-t="llm_local_save"></button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script type="module" src="assets/js/admin.js?v=04bab6a77c"></script>
+</body>
+</html>
